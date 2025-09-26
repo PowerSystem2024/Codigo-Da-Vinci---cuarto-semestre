@@ -1,0 +1,32 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Carpetas de IDEs
+.vscode/
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+*.sqlite3
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+/out/
+target/
+build/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
