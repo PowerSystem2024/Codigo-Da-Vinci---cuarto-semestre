@@ -73,7 +73,12 @@ Respnsabilidades:
 2) agregar usuario
 3) actualizar usuario
 4)Eliminar usuario
-5) salir</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>990</x><y>270</y><w>210</w><h>190</h></coordinates><panel_attributes>UserAppMenu
+5) salir
+
+aqui tengo que agregar las excepciones para que al momento
+de usar las opciones el software no de 
+detenga o arroje error.
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>990</x><y>270</y><w>210</w><h>190</h></coordinates><panel_attributes>UserAppMenu
 --
 Responsibilities
 Contains a menu with 5 options :
