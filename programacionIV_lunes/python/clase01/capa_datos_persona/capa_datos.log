@@ -3,3 +3,9 @@
 01:34:51 AM:WARNING [logger_base.py:14] mensaje a nivel warning
 01:34:51 AM:ERROR [logger_base.py:15] mensaje a nivel error
 01:34:51 AM:CRITICAL [logger_base.py:16] mensaje a nivel critical
+12:26:31 AM:DEBUG [persona.py:74] 
+            Id Persona.1,
+            Nombre: juan,
+            Apellido: perez,
+            Email: perez@gmail.com
+        
