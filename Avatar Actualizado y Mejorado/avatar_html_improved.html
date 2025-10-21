@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Avatar: Duelo de Elementos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="container">
+    <h1 class="titulo">Avatar<span class="subtitulo">El Duelo de los 4 Elementos</span></h1>
+
+    <menu class="menu-principal">
+      <button id="btn-jugar" class="btn fuego">Jugar</button>
+      <button id="btn-reglas" class="btn agua">Reglas</button>
+      <button id="btn-reiniciar" class="btn tierra" disabled>Reiniciar</button>
+    </menu>
+
+    <section id="reglas" class="card reglas" hidden>
+      <h2>Reglas del combate</h2>
+      <ol>
+        <li>Elige un personaje (Zuko, Katara, Aang, Toph...).</li>
+        <li>El enemigo se sortea automáticamente.</li>
+        <li>Selecciona un ataque: Puño, Patada o Barrida.</li>
+        <li>
+          <strong>Jerarquía:</strong>
+          <ul>
+            <li>Puño vence a Barrida</li>
+            <li>Patada vence a Puño</li>
+            <li>Barrida vence a Patada</li>
+          </ul>
+        </li>
+        <li>Gana el mejor de 3 rounds.</li>
+      </ol>
+    </section>
+
+    <section id="seleccionar-personaje" class="card personaje-card" hidden>
+      <h2>Elige tu guerrero</h2>
+      <div class="personajes-grid"></div>
+      <button id="btn-confirmar" class="btn aire" disabled>Confirmar</button>
+      <button id="btn-agregar" class="btn subtle">+ Agregar personaje</button>
+
+      <form id="form-agregar" class="card" hidden>
+        <select id="select-pj" required>
+          <option value="">— desbloquear —</option>
+          <option value="Sokka">Sokka</option>
+          <option value="Azula">Azula</option>
+          <option value="Iroh">Iroh</option>
+        </select>
+        <button class="btn aire">Desbloquear</button>
+      </form>
+    </section>
+
+    <section id="combate" class="card combate-card" hidden>
+      <header class="vs-header">
+        <div class="gladiador">
+          <span id="nombre-jugador" class="nombre"></span>
+          <div class="vida">
+            <div class="barra"><div id="barra-jugador" class="relleno"></div></div>
+            <span id="vidas-jugador" class="contador">3</span>
+          </div>
+        </div>
+
+        <div class="gladiador">
+          <span id="nombre-enemigo" class="nombre"></span>
+          <div class="vida">
+            <div class="barra"><div id="barra-enemigo" class="relleno"></div></div>
+            <span id="vidas-enemigo" class="contador">3</span>
+          </div>
+        </div>
+      </header>
+
+      <h3>Elige tu técnica</h3>
+      <menu class="tecnicas">
+        <button data-tec="Puño" class="btn tec fuego"><span class="icon puno"></span>Puño</button>
+        <button data-tec="Patada" class="btn tec agua"><span class="icon patada"></span>Patada</button>
+        <button data-tec="Barrida" class="btn tec tierra"><span class="icon barrida"></span>Barrida</button>
+      </menu>
+
+      <output id="mensaje" class="mensaje"></output>
+    </section>
+  </main>
+
+  <script src="js/avatar.js"></script>
+</body>
+</html>
