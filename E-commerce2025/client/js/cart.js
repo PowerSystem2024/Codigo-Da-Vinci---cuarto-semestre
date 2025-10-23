@@ -4,13 +4,14 @@ const modalOverlay = document.getElementById("modal-overlay");
 const cartBtn = document.getElementById("cart-btn");
 const cartCounter = document.getElementById("cart-counter");
 
-const displayCart = async () => {
+const displayCart = () => {
     modalContainer.innerHTML = "";
     modalContainer.style.display = "block";
     modalOverlay.style.display = "block";
 
     // Modal Header
     const modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header";
 
     const modalClose = document.createElement("div");
     modalClose.innerText = "❌";
@@ -67,7 +68,6 @@ const displayCart = async () => {
                 displayCartCounter();
             });
 
-            // Delete
             const deleteProduct = modalBody.querySelector(".delete-product");
             deleteProduct.addEventListener("click", () => {
                 deleteCartProduct(product.id);
@@ -86,49 +86,50 @@ const displayCart = async () => {
         `;
         modalContainer.append(modalFooter);
 
-        // Mercado Pago
+        // --- INICIO DEL CÓDIGO CORREGIDO ---
         const mp = new MercadoPago("APP_USR-6c3f820c-534d-4218-a758-7ba03ffe0456", {
-        locale: "es-AR",
+            locale: "es-AR",
         });
 
         document.getElementById("checkout-btn").addEventListener("click", async () => {
-        try {
-            const orderData = {
-            title: document.querySelector(".productName").innerText,
-            quantity: product.quantity,
-            price: product.price,
-            };
+            try {
+                // Mapeamos el carrito para enviarlo al backend
+                const itemsToSend = cart.map((prod) => {
+                    return {
+                        title: prod.productName,
+                        quantity: prod.quantity,
+                        price: prod.price,
+                    };
+                });
+                
+                const response = await fetch("http://localhost:8080/create_preference", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    // Enviamos el array de items en el body
+                    body: JSON.stringify({ items: itemsToSend }),
+                });
 
-            const response = await fetch("http://localhost:8080/create_preference", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderData),
-            });
-
-            const preference = await response.json()
-            createCheckoutButton(preference.id);
-        } catch (error) {
-            alert("error :(");
-        }
+                const preference = await response.json();
+                createCheckoutButton(preference.id);
+            } catch (error) {
+                console.error(error);
+                alert("Hubo un error al procesar el pago :(");
+            }
         });
 
         const createCheckoutButton = (preferenceId) => {
-        const bricksBuilder = mp.bricks();
-
-        const renderComponent = async () => {
-            if (window.checkoutButton) window.checkoutButton.unmount();
-            await bricksBuilder.create("wallet", "wallet_container", {
-            initialization: {
-                preferenceId: preferenceId,
-                redirectMode: 'modal',
-            },
+            document.getElementById("checkout-btn").remove(); // Ocultamos el botón original
+            const bricksBuilder = mp.bricks();
+            bricksBuilder.create("wallet", "wallet_container", {
+                initialization: {
+                    preferenceId: preferenceId,
+                    redirectMode: 'modal',
+                },
             });
         };
-
-        renderComponent();
-        };
+        // --- FIN DEL CÓDIGO CORREGIDO ---
 
     } else {
         const modalText = document.createElement("h2");
