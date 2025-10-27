@@ -8,10 +8,13 @@ public class Conexion {
     public static Connection getConnection(){ //primero
         Connection conexion = null;
         //ahora crearemos variables para conectarnos a la base de datos
-        var baseDatos = "estudiantes2025";
+        var baseDatos = "estudiantes";
         var url = "jdbc:mysql://localhost:3306/" + baseDatos;
-        var usuario = "root";
-        var password = "admin";
+        //var usuario = "root";
+        var usuario = "irene";
+        //var password = "admin";
+        var password = "123456";
+
 
         // ahora cargamos la clase del driver de mysql en memoria
         try {
