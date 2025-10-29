@@ -30,3 +30,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 dist/
+
+# Ignorar archivos del proyecto PERN
+/PERN-stack/node_modules/
+/PERN-stack/client/node_modules/
+/PERN-stack/client/build/
+/PERN-stack/.env
+/PERN-stack/client/.env
