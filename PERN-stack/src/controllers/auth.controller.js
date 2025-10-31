@@ -4,29 +4,34 @@ import {createAccessToken} from "../libs/jwt.js"
 import md5 from "md5";
 
 export const signin = async(req, res) => {
-    const {name , email, password} = req.body;
+    // Nota: tu frontend envía 'email' y 'password'. 'name' no es necesario aquí.
+    const { email, password } = req.body;
 
-    const result = await pool.query("SELECT * FROM usuarios WHERE email = $1",[email])
+    try {
+      const result = await pool.query("SELECT * FROM usuarios WHERE email = $1",[email])
 
-    if(result.rowCount == 0){
-        return res.status(400).json({message: "El correo no esta registrado"});
+      if(result.rowCount == 0){
+          return res.status(400).json({message: "El correo no esta registrado"});
+      }
+
+      const validPassword = await bcrypt.compare(password, result.rows[0].password);
+
+      if(!validPassword){
+          return res.status(400).json({message: "La contraseña es incorrecta"});
+      }
+      const token = await createAccessToken({id: result.rows[0].id});
+          
+      res.cookie("token",token ,{
+          // httpOnly: false, // Por defecto es false, está bien para js-cookie
+          secure: false, // Falso para http
+          sameSite: "lax", // 'lax' es necesario para http
+          maxAge: 60 * 60 * 24 * 1000,
+      })
+      return res.json(result.rows[0]);
+
+    } catch (error) {
+      return res.status(500).json({ message: "Error interno del servidor" });
     }
-
-    const validPassword = await bcrypt.compare(password, result.rows[0].password);
-
-    if(!validPassword){
-        return res.status(400).json({message: "La contraseña es incorrecta"});
-    }
-    const token = await createAccessToken({id: result.rows[0].id});
-        console.log(result);
-        res.cookie("token",token ,{
-            httpOnly: true,
-            secure: false,
-            sameSite: "none",
-            maxAge: 60 * 60 * 24 * 1000,
-        })
-        return res.json(result.rows[0]);
-
 }
 
 export const signup = async(req, res, next) => {
@@ -42,10 +47,11 @@ export const signup = async(req, res, next) => {
 
         const token = await createAccessToken({id: result.rows[0].id});
         
+        // 🔽 CONFIGURACIÓN DE COOKIE CORREGIDA 🔽
         res.cookie("token",token ,{
-            httpOnly: true,
-            secure: false,
-            sameSite: "none",
+            // httpOnly: false,
+            secure: false, // Falso para http
+            sameSite: "lax", // 'lax' es necesario para http
             maxAge: 60 * 60 * 24 * 1000,
         })
         return res.json(result.rows[0]);
@@ -54,18 +60,27 @@ export const signup = async(req, res, next) => {
         if(error.code === "23505"){
             return res.status(400).json({message: "El correo ya existe"});
         }
-        next(error);
+        console.error("Error en signup:", error.message); 
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 };
  
 export  const logout = (req, res) => {
-
-    res.clearCookie("token");
+    // 🔽 CONFIGURACIÓN DE COOKIE CORREGIDA 🔽
+    res.cookie("token", "", {
+        secure: false,
+        sameSite: "lax",
+        expires: new Date(0), // Expira inmediatamente
+    });
     return res.json({message: "Sesion cerrada"});
 };
 
 export const profile = async (req, res) => {
     const result = await pool.query("SELECT * FROM usuarios WHERE id = $1", [req.usuarioId]);
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
     return res.json(result.rows[0]);
-
 };
