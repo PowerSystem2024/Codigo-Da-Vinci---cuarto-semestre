@@ -1,11 +1,15 @@
-import React from 'react'; 
-import {forwardRef} from "react"
 
-export const Input = forwardRef ((props, ref) => {
+import { forwardRef } from 'react'
+
+const Input = forwardRef((props, ref) => {
   return (
-    <input type="text" className="bg-zinc-800 px-3 py-2 black my-2 w-full"
-    {...props} ref={ref}/>
+    <input
+      type='text'
+      className="bg-zinc-800 px-3 py-2 block my-2 w-full"
+      {...props}
+      ref={ref}
+    />
   )
 })
 
-export default Input
+export { Input }

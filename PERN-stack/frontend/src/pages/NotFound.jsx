@@ -1,20 +1,14 @@
-import React from 'react'
-import Input from '../components/ui/input';
-import {Card} from "../components/ui/Card";
-import {Button} from "../components/ui/Button";
-import {useForm} from "react-hook-form";
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { Card } from '../components/UI'
 
 function NotFound() {
   return (
-    <div className='h-[calc(100vh-64px)] flex items-center justify-center flex-col'>
-        <Card>
-            <h1 className='text 4x1 font-bold my-2 text-center'>404</h1>
-            <h3 className='text-xl text-center'>Pagina no encontrada</h3>
-            <Link to= "/" className="text-blue-500" hover:underline>Volver al inicio</Link>
-        </Card>
-
-
+    <div className='h-[calc(100vh-64px)] flex justify-center items-center flex-col'>
+      <Card>
+        <h3 className='text-4xl font-bold'>404</h3>
+        <p className='text-xl text-center'>Página no encontrada</p>
+        <Link to="/" className='text-blue-500'>Volver al inicio</Link>
+      </Card>
     </div>
   )
 }

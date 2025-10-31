@@ -32,8 +32,8 @@ yarn-error.log
 dist/
 
 # Ignorar archivos del proyecto PERN
-/PERN-stack/node_modules/
-/PERN-stack/client/node_modules/
-/PERN-stack/client/build/
-/PERN-stack/.env
-/PERN-stack/client/.env
+/PERN-stack/backend/node_modules/
+/PERN-stack/backend/.env
+/PERN-stack/frontend/node_modules/
+/PERN-stack/frontend/dist/
+/PERN-stack/frontend/*.local

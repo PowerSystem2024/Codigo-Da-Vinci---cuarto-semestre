@@ -1,103 +1,94 @@
-import React, {createContext, useContext, useState, useEffect} from 'react'
-import Cookie from "js-cookie"; // Tu profesor lo usa para leer la cookie
-import axios from "axios"; 
+import axios from 'axios';
+import { createContext, useState, useContext, useEffect } from 'react';
+import Cookie from 'js-cookie';
+import cliente from '../api/axios.js';
 
-export const AuthContext= createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if(!context){
-        throw new Error("useAuth must be used within AuthProvider")
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
     }
     return context;
 }
 
-export function AuthProvider({children}){
-    const[user, setUser] = useState(null);
-    const[isAuth , setIsAuth] = useState(false);
-    const[errors , setErrors] = useState(null);
-    const [loading, setLoading] = useState(true); // Estado de carga
-
-    
-    const signup = async (data) =>{
-      try {
-        const res = await axios.post("http://localhost:3000/api/signup", data, {
-          withCredentials: true,
-        });
-        console.log("Respuesta de signup:", res.data);
-        setUser(res.data);
-        setIsAuth(true); 
-      } catch (error) {
-        const errorMessage = Array.isArray(error.response.data) 
-                           ? error.response.data.join(', ') 
-                           : error.response.data.message;  
-        console.error("Error en signup (desde AuthContext):", errorMessage);
-        setErrors(errorMessage);
-        throw error; 
-      }
-    }
+export function AuthProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [isAuth, setIsAuth] = useState(false);
+    const [errors, setErrors] = useState(null);
 
     const signin = async (data) => {
-      try {
-        const res = await axios.post("http://localhost:3000/api/login", data, {
-          withCredentials: true,
-        });
-        setUser(res.data);
-        setIsAuth(true);
-        setErrors(null);
-      } catch (error) {
-        const errorMessage = Array.isArray(error.response.data) 
-                           ? error.response.data.join(', ') 
-                           : error.response.data.message;  
-        console.error("Error en signin (desde AuthContext):", errorMessage);
-        setErrors(errorMessage);
-        throw error; 
-      }
+        try {
+            const res = await cliente.post('/signin', data);
+            console.log(res);
+            setUser(res.data);
+            setIsAuth(true);
+            return res.data;
+        } catch (error) {
+            if (error.response && error.response.data) {
+                if (Array.isArray(error.response.data)) {
+                    setErrors(error.response.data);
+                } else {
+                    setErrors([error.response.data]);
+                }
+            } else {
+                setErrors([{ message: 'Error de conexión. Verifica que el servidor esté corriendo.' }]);
+            }
+            throw error;
+        }
     }
 
-    // 🔽 ESTE ES EL 'useEffect' QUE USA TU PROFESOR 🔽
-    useEffect(() => {
-      async function checkLogin() {
-        const token = Cookie.get('token'); // 1. Leemos la cookie
-        
-        if (!token) {
-          // 2. Si no hay token, no está autenticado
-          setIsAuth(false);
-          setUser(null);
-          setLoading(false); // Terminamos de cargar
-          return;
-        }
-
-        // 3. Si hay token, lo verificamos con el backend
+    const signup = async (data) => {
         try {
-          const res = await axios.get("http://localhost:3000/api/profile", {
-            withCredentials: true, // Esto envía la cookie 'token' automáticamente
-          });
-
-          // 4. Si el token es válido, el backend devuelve al usuario
-          setUser(res.data);
-          setIsAuth(true);
-          setLoading(false);
+            setErrors(null);
+            const res = await cliente.post('/signup', data);
+            console.log(res);
+            setUser(res.data);
+            setIsAuth(true);
+            return res.data;
         } catch (error) {
-          // 5. Si el token es inválido (error 401)
-          console.error("Error al verificar token:", error);
-          setIsAuth(false);
-          setUser(null);
-          setLoading(false);
+            if (error.response && error.response.data) {
+                // Los errores de Zod vienen como array
+                setErrors(Array.isArray(error.response.data) ? error.response.data : [error.response.data]);
+            } else {
+                setErrors([{ message: 'Error de red' }]);
+            }
+            throw error;
         }
-      }
-      checkLogin();
-    }, []); // El array vacío [] lo ejecuta 1 sola vez
 
-    return <AuthContext.Provider value={{
-        user,
-        isAuth,
-        errors,
-        loading, // <-- Exportamos 'loading'
-        signup,
-        signin, 
-        setUser,
-    }}>
+    }
+
+    const signout = async () => {
+        try {
+            await cliente.post('/signout');
+            setUser(null);
+            setIsAuth(false);
+            Cookie.remove("token");
+        }
+        catch (error) {
+            console.log('Error al cerrar sesión:', error);
+        }
+    }
+
+    useEffect(() => {
+        if (Cookie.get("token")) {
+            axios.get('http://localhost:3000/api/profile', {
+                withCredentials: true,
+            }).then(res => {
+                setUser(res.data);
+                setIsAuth(true);
+            }).catch(err => {
+                setUser(null);
+                setIsAuth(false);
+                Cookie.remove("token");
+                console.log('Error al obtener perfil:', err);
+            });
+        }
+    }, []);
+
+    return <AuthContext.Provider value={{ user, isAuth, errors, signup, signin, signout }}>
         {children}
     </AuthContext.Provider>
 }
+

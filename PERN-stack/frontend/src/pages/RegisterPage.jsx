@@ -1,96 +1,55 @@
-import React from 'react'; 
-import Input from '../components/ui/input';
-import {Card} from "../components/ui/Card";
-import {Button} from "../components/ui/Button";
-import {useForm} from "react-hook-form";
-import {Label} from "../components/ui/Label";
-import {Link, useNavigate} from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; 
+import { Card, Input, Button } from '../components/UI'
+import { useForm } from 'react-hook-form'
+
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function RegisterPage() {
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors: formErrors }, // Renombramos 'errors'
-  } = useForm();
-  
-  const { signup, errors: registerErrors } = useAuth(); // Obtenemos 'signup' y los errores
-  const navigate = useNavigate();
-
-  // 🔽 'onSubmit' CORREGIDO CON TRY...CATCH 🔽
+  const { register, handleSubmit, formState: { errors } } = useForm()
+  const navigate = useNavigate()
+  const { signup, errors: serverErrors } = useAuth()
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signup(data); // 1. Intentamos registrar
-      navigate('/perfil'); // 2. Si tiene éxito, navegamos
-      
+      const user = await signup(data)
+      if (user) {
+        navigate('/perfil')
+      }
     } catch (error) {
-      // 3. Si 'signup' falla, el 'throw error' nos trae aquí
-      const errorMessage = Array.isArray(error.response.data) 
-                           ? error.response.data.join(', ') 
-                           : error.response.data.message;
-                           
-      // ¡ESTE ES EL LOG QUE QUERÍAS VER!
-      console.error("Error al registrar:", errorMessage);
+      // Los errores ya están en el contexto, no hacemos nada aquí
+      console.log('Error en registro:', error)
     }
-  });
+  })
+
+  console.log(errors);
 
   return (
-    <div className='h-{calc(100vh-64px)} flex items-center justify-center'>
-      
+    <div className='h-[calc(100vh-64px)] flex items-center justify-center'>
       <Card>
-        
-        {/* Esto mostrará el error en la pantalla */}
-        {registerErrors && (
-          <div className="bg-red-500 text-white p-2 text-center mb-2 rounded-md">
-            {registerErrors}
-          </div>
-        )}
+        <form onSubmit={onSubmit}>
+          <h3 className='text-2xl font-bold'>Registro</h3>
 
-        <h2 className = 'text-2xl font-bold my-2' >  Registro </h2>
-          <form onSubmit={onSubmit}>
-        <Label htmlFor='name'>Nombre</Label>
-        <Input 
-          id="name" // ID por accesibilidad
-          placeholder= "Ingrese su nombre" 
-          {...register("name", { required: true })}
-        />
-         {formErrors.name && (
-            <p className="text-red-500">Este campo es requerido</p>
-          )}
-        <Label htmlFor='email'>Email</Label>
-        <Input 
-          id="email" // ID por accesibilidad
-          type='email' 
-          placeholder= "Ingrese su email"
-          {...register("email", { required: true })}
-        />
-         {formErrors.email && (
-            <p className="text-red-500">Este campo es requerido</p>
-          )}
-        <Label htmlFor='password'>Contraseña</Label>
-        <Input 
-          id="password" // ID por accesibilidad
-          type='password' 
-          placeholder= "Ingrese su contraseña"
-          {...register("password", { required: true })}
-        />
-        {formErrors.password && (
-            <p className="text-red-500">Este campo es requerido</p>
-          )}
+          {serverErrors && Array.isArray(serverErrors) && serverErrors.map((error, index) => (
+            <div key={index} className='bg-red-500 text-white p-2 rounded mb-2'>
+              {error.message}
+            </div>
+          ))}
 
-        <Button>Registrase</Button>
-
-      </form>
-       <p className="text-gray-400 text-sm mt-4">
-          ¿Ya tienes cuenta?{" "}
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Iniciar Sesión
-          </Link>
-        </p>
+          <Input placeholder="Ingrese su nombre" {...register("name", { required: true })} />
+          {errors.name && <span className='text-red-500'>Este campo es requerido</span>}
+          <Input type="email" placeholder="Ingrese su email" {...register("email", { required: true })} />
+          {errors.email && <span className='text-red-500'>Este campo es requerido</span>}
+          <Input type="password" placeholder="Ingrese su contraseña" {...register("password", { required: true })} />
+          {errors.password && <span className='text-red-500'>Este campo es requerido</span>}
+          <Button type="submit">Registrarse</Button>
+        </form>
+        <div className="flex justify-between my-4">
+          <p>¿Ya tienes una cuenta? <Link to="/login" className='text-blue-500'>Inicia sesión</Link></p>
+        </div>
       </Card>
-    </div>
-  );
+    </div >
+
+  )
 }
 
-export default RegisterPage;
+export default RegisterPage
