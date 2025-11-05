@@ -1,0 +1,3 @@
+05:32:00 PM: DEBUG [menu_app.py:19] Listando usuarios...
+05:32:00 PM: DEBUG [cursor_del_pool.py:10] Inicio del metodo with y __enter__
+05:32:00 PM: ERROR [conexion.py:41] Ocurrio un error al obtener el pool: 'utf-8' codec can't decode byte 0xf3 in position 85: invalid continuation byte

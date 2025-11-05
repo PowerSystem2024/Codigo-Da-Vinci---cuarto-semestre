@@ -1,0 +1,225 @@
+:root {
+  --fuego: #ff6b35;
+  --agua: #38b6ff;
+  --tierra: #8b5e34;
+  --aire: #ffe156;
+  --papel: #fdf6e3;
+  --sombra: rgba(0,0,0,0.35);
+  --borde-dorado: #c9a145;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  background: url("https://e1.pxfuel.com/desktop-wallpaper/984/753/desktop-wallpaper-avatar-four-elements-four-elements.jpg") no-repeat center center/cover fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+/* capa semi-oscura para mejorar legibilidad */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: -1;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.titulo {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--aire);
+  text-shadow: 3px 3px 6px var(--sombra);
+  text-align: center;
+}
+
+.subtitulo {
+  display: block;
+  font-size: 0.4em;
+  font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fuego);
+}
+
+/* Botones */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px var(--sombra);
+}
+
+.btn:disabled {
+  background: #999;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.fuego { background: var(--fuego); color: white; }
+.agua { background: var(--agua); color: white; }
+.tierra { background: var(--tierra); color: white; }
+.aire { background: var(--aire); color: #222; }
+
+.subtle {
+  background: transparent;
+  color: var(--aire);
+  border: 2px solid var(--aire);
+}
+
+/* Tarjetas */
+.card {
+  background: rgba(253, 246, 227, 0.92);
+  border: 2px solid var(--borde-dorado);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  box-shadow: 0 4px 12px var(--sombra);
+}
+
+.reglas ol {
+  margin-left: 1.2rem;
+}
+
+.personajes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pj {
+  text-align: center;
+  padding: 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.pj img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: white;
+}
+
+.pj:hover {
+  border-color: var(--aire);
+  transform: scale(1.05);
+}
+
+.pj.selected {
+  border-color: var(--fuego);
+  transform: scale(1.06);
+  box-shadow: 0 0 10px var(--fuego);
+}
+
+.pj input {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Combate */
+.vs-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.gladiador {
+  flex: 1;
+  text-align: center;
+}
+
+.nombre {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--tierra);
+}
+
+.vida {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.barra {
+  flex: 1;
+  height: 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.relleno {
+  height: 100%;
+  background: linear-gradient(90deg, var(--agua), var(--aire));
+  transition: width 0.3s;
+}
+
+.tecnicas {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.tec .icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  background: currentColor;
+}
+
+.puno { mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L3 8v4c0 4.5 3 8.66 7 9.93V22h4v-2.07c4-1.27 7-5.43 7-9.93V8l-9-6z"/></svg>'); }
+.patada { mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 2l-7 9h4l-3 9 10-12h-4l4-6z"/></svg>'); }
+.barrida { mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 12h16v2H4zM4 8h16v2H4zM4 16h16v2H4z"/></svg>'); }
+
+.mensaje {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--tierra);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
