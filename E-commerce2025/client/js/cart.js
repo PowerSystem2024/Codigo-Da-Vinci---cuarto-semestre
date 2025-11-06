@@ -4,14 +4,14 @@ const modalOverlay = document.getElementById("modal-overlay");
 const cartBtn = document.getElementById("cart-btn");
 const cartCounter = document.getElementById("cart-counter");
 
-const displayCart = () => {
+const displayCart = async () => {
     modalContainer.innerHTML = "";
     modalContainer.style.display = "block";
     modalOverlay.style.display = "block";
 
+    // ... (El código de 'modalHeader' y 'modalBody' sigue igual) ...
     // Modal Header
     const modalHeader = document.createElement("div");
-    modalHeader.className = "modal-header";
 
     const modalClose = document.createElement("div");
     modalClose.innerText = "❌";
@@ -68,6 +68,7 @@ const displayCart = () => {
                 displayCartCounter();
             });
 
+            // Delete
             const deleteProduct = modalBody.querySelector(".delete-product");
             deleteProduct.addEventListener("click", () => {
                 deleteCartProduct(product.id);
@@ -81,55 +82,54 @@ const displayCart = () => {
         modalFooter.className = "modal-footer";
         modalFooter.innerHTML = `
             <div class="total-price">Total: $${total}</div>
-            <button id="checkout-btn" class="btn-primary">Go to checkout</button>
-            <div id="wallet_container"></div>
-        `;
-        modalContainer.append(modalFooter);
+            <div id="wallet_container"></div> `;
+        
+        // 🔽 ¡AQUÍ ESTÁ EL ARREGLO! 🔽
+        // Verificamos si el usuario está logueado
+        const token = localStorage.getItem('token');
 
-        // --- INICIO DEL CÓDIGO CORREGIDO ---
-        const mp = new MercadoPago("APP_USR-6c3f820c-534d-4218-a758-7ba03ffe0456", {
-            locale: "es-AR",
-        });
-
-        document.getElementById("checkout-btn").addEventListener("click", async () => {
-            try {
-                // Mapeamos el carrito para enviarlo al backend
-                const itemsToSend = cart.map((prod) => {
-                    return {
-                        title: prod.productName,
-                        quantity: prod.quantity,
-                        price: prod.price,
-                    };
-                });
-                
-                const response = await fetch("http://localhost:8080/create_preference", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    // Enviamos el array de items en el body
-                    body: JSON.stringify({ items: itemsToSend }),
-                });
-
-                const preference = await response.json();
-                createCheckoutButton(preference.id);
-            } catch (error) {
-                console.error(error);
-                alert("Hubo un error al procesar el pago :(");
-            }
-        });
-
-        const createCheckoutButton = (preferenceId) => {
-            document.getElementById("checkout-btn").remove(); // Ocultamos el botón original
-            const bricksBuilder = mp.bricks();
-            bricksBuilder.create("wallet", "wallet_container", {
-                initialization: {
-                    preferenceId: preferenceId,
-                    redirectMode: 'modal',
-                },
+        if (token) {
+            // --- SI ESTÁ LOGUEADO, MOSTRAMOS EL BOTÓN DE PAGO ---
+            modalFooter.innerHTML += `<button id="checkout-btn" class="btn-primary">Go to checkout</button>`;
+            modalContainer.append(modalFooter);
+            
+            // --- INICIAMOS MERCADO PAGO ---
+            const mp = new MercadoPago('APP_USR-6c3f820c-534d-4218-a758-7ba03ffe0456', {
+                locale: 'es-AR'
             });
-        };
-        // --- FIN DEL CÓDIGO CORREGIDO ---
+
+            document.getElementById("checkout-btn").addEventListener("click", async () => {
+                try {
+                    const orderData = cart.map(product => {
+                        return {
+                            title: product.productName,
+                            quantity: product.quantity,
+                            price: product.price,
+                        };
+                    });
+                    
+                    const response = await fetch("http://localhost:8080/create_preference", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(orderData), 
+                    });
+
+                    const preference = await response.json();
+                    createCheckoutButton(preference.id, mp); // Pasamos 'mp'
+
+                } catch (error) {
+                    alert("error :(");
+                }
+            });
+
+        } else {
+            // --- SI NO ESTÁ LOGUEADO, MOSTRAMOS UN MENSAJE ---
+            modalFooter.innerHTML += `<p style="color: red; margin-top: 15px;">Necesitás <a href="login.html" style="color: blue;">iniciar sesión</a> para pagar.</p>`;
+            modalContainer.append(modalFooter);
+        }
+        
 
     } else {
         const modalText = document.createElement("h2");
@@ -139,6 +139,27 @@ const displayCart = () => {
     }
 };
 
+// Función de Mercado Pago (la saqué de displayCart para que no se redeclare)
+const createCheckoutButton = (preferenceId, mp) => {
+    const bricksBuilder = mp.bricks();
+
+    const renderComponent = async () => {
+        if (window.checkoutButton) {
+            window.checkoutButton.unmount();
+        }
+
+        window.checkoutButton = await bricksBuilder.create("wallet", "wallet_container", {
+            initialization: {
+                preferenceId: preferenceId,
+                redirectMode: 'modal',
+            },
+        });
+    };
+    renderComponent();
+};
+
+
+// --- El resto de tu código (no cambia) ---
 cartBtn.addEventListener("click", displayCart);
 
 const deleteCartProduct = (id) => {
