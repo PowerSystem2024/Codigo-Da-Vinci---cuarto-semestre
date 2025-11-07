@@ -55,7 +55,8 @@ app.post("/create_preference", async (req, res) => {
 });
 
 // Iniciar servidor
-const PORT = 8080;
+const PORT = process.env.PORT || 8080; 
+
 app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`✅ Servidor corriendo en el puerto ${PORT}`);
 });
