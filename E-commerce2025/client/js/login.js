@@ -11,7 +11,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
         // Llamamos a la ruta /api/login del backend
-        const response = await fetch('http://localhost:8080/api/login', {
+        const response = await fetch('https://e-commerce-backend-73ik.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

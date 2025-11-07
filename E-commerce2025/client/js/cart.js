@@ -108,7 +108,7 @@ const displayCart = async () => {
                         };
                     });
                     
-                    const response = await fetch("http://localhost:8080/create_preference", {
+                    const response = await fetch("https://e-commerce-backend-73ik.onrender.com/create_preference", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

@@ -7,7 +7,7 @@ async function cargarProductos() {
 
     try {
         // 2. Hacemos un 'fetch' a la nueva ruta de tu backend
-        const response = await fetch("http://localhost:8080/api/productos");
+        const response = await fetch("https://e-commerce-backend-73ik.onrender.com/api/productos");
         productos = await response.json(); // Convertimos la respuesta en JSON
         console.log("Productos cargados desde la BD:", productos);
     } catch (error) {
