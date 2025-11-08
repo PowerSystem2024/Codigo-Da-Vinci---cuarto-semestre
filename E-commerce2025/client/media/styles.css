@@ -1,6 +1,26 @@
-/*products styles*/
+/* --- BORRÁ TODO Y PEGÁ ESTO --- */
+
+/* 1. ESTILOS GENERALES Y LAYOUT */
+body {
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #333333;       /* Texto negro por defecto */
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    /* Magia para el footer (CSS Grid) */
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header, Contenido (se estira), Footer */
+    min-height: 100vh;
+}
+
+/* Clase para el contenido principal (hace que se estire) */
+.main-content {
+    flex-grow: 1; /* Esto empuja el footer hacia abajo */
+}
+
+/* 2. ESTILOS DE LA TIENDA (Tu código original) */
 .card-products-container {
-    margin: 5vh auto;
+    margin: 40px auto; /* Agregué margen superior */
 }
 
 .card-products {
@@ -35,7 +55,7 @@
     opacity: 0.7;
 }
 
-/*cart button*/
+/* 3. ESTILOS DEL CARRITO (Tu código original) */
 .cart-btn {
     position: fixed;
     top: 90vh;
@@ -68,7 +88,7 @@
     font-size: 15px;
 }
 
-/*modal*/
+/* 4. ESTILOS DEL MODAL (CARRITO) (Tu código original) */
 .modal-overlay {
     display: none;
     background-color: rgba(0, 0, 0, 0.5);
@@ -110,9 +130,9 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    color: #101010; /* Título oscuro */
 }
 
-/*modal-body*/
 .modal-body {
     margin-bottom: 20px;
     text-align: center;
@@ -216,4 +236,59 @@
 
 #button-checkout {
     z-index: 10;
+}
+
+/* 5. ESTILOS NUEVOS PARA NAVBAR Y FOOTER */
+.pink-bar {
+    background-color: #E535AB;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: right;
+    color: white; /* Texto blanco en la barra */
+    grid-row: auto; /* Parte de la magia de CSS Grid */
+}
+.pink-bar a,
+.pink-bar span {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+}
+.pink-bar p {
+    margin: 0; /* Quita margen del párrafo del footer */
+}
+
+/* 6. ESTILOS NUEVOS PARA FORMULARIOS (LOGIN/REGISTRO) */
+.form-content-wrap {
+    flex-grow: 1; /* Empuja el footer hacia abajo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.form-container {
+    max-width: 450px;  /* Inputs más cortos */
+    width: 90%;        /* Ocupa el 90% en móviles */
+    margin: 0 auto;    /* Centrado */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px; /* Bordes redondeados */
+    border: 1px solid #ddd;
+}
+
+.form-container label {
+    display: block; /* Para que el label esté arriba */
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px; /* Inputs redondeados */
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
 }

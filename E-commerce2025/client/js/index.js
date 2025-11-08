@@ -1,42 +1,63 @@
 const shopContent = document.getElementById("shopContent");
-const cart = []; //Este es nuestro carrito, un array vacio
+let cart = []; // El carrito ahora es global para este script
 
-productos.forEach((product) => {
-    const content = document.createElement("div");
-    content.innerHTML = `
-    <img src="${product.img}">
-    <h3>${product.productName}</h3>
-    <p>${product.price} $</p>
-    `;
-    shopContent.append(content);
+// 1. Envolvemos todo en una función 'async' para poder usar 'await'
+async function cargarProductos() {
+    let productos = []; // Array para guardar los productos de la BD
 
-    const buyButton = document.createElement("button");
-    buyButton.innerText = "Comprar";
+    try {
+        // 2. Hacemos un 'fetch' a la nueva ruta de tu backend
+        const response = await fetch("https://e-commerce-backend-73ik.onrender.com/api/productos");
+        productos = await response.json(); // Convertimos la respuesta en JSON
+        console.log("Productos cargados desde la BD:", productos);
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+        shopContent.innerHTML = "<h1>Error al cargar productos</h1>";
+        return; // Detenemos la ejecución si hay un error
+    }
 
-    content.append(buyButton);
+    // 3. El resto de tu código (el .forEach) va aquí adentro
+    productos.forEach((product) => {
+        const content = document.createElement("div");
+        // Asegúrate de que los nombres de las columnas de tu BD coincidan aquí
+        // (product.img, product.productname, product.price)
+        content.innerHTML = `
+        <img src="${product.img}"> 
+        <h3>${product.productname}</h3> 
+        <p>${product.price} $</p>
+        `;
+        shopContent.append(content);
 
-    buyButton.addEventListener("click", ()=>{
-        const repeat = cart.some((repeatProduct) => repeatProduct.id === product.id)
+        const buyButton = document.createElement("button");
+        buyButton.innerText = "Comprar";
 
-        if(repeat) {
-            cart.forEach((prod)=> {
-                if(prod.id === product.id){
-                    prod.quantity++;
-                    displayCartCounter();
-                }
-            })
-        }else {
+        content.append(buyButton);
+
+        buyButton.addEventListener("click", ()=>{
+            const repeat = cart.some((repeatProduct) => repeatProduct.id === product.id)
+
+            if(repeat) {
+                cart.forEach((prod)=> {
+                    if(prod.id === product.id){
+                        prod.quantity++;
+                        displayCartCounter();
+                    }
+                })
+            }else {
+                cart.push({
+                id: product.id,
+                productName: product.productname, // Asegúrate de que coincida con tu BD
+                price: product.price,
+                quantity: product.quantity,
+                img: product.img,
+                });
+                displayCartCounter();
+            }
             
-            cart.push({
-            id: product.id,
-            productName: product.productName,
-            price: product.price,
-            quantity: product.quantity,
-            img: product.img,
-            });
-            displayCartCounter();
-        }
-        
-        console.log(cart)
-    })
-})
+            console.log(cart)
+        })
+    });
+}
+
+// 4. Llamamos a la función para que se ejecute apenas cargue la página
+cargarProductos();
