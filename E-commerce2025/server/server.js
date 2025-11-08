@@ -6,7 +6,10 @@ import { pool } from "./db.js"; // 1. Importar la conexión a la BD
 import authRoutes from "./router/auth.routes.js"; // 2. Importar las rutas de auth
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://codigodavinci-ecomerce.netlify.app',
+  credentials: true
+}));
 
 // --- NUEVAS RUTAS DE AUTENTICACIÓN ---
 app.use("/api", authRoutes); 
