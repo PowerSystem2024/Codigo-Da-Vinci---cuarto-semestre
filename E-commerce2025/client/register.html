@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - E-Commerce</title>
+    <link rel="stylesheet" href="media/styles.css"> 
+</head>
+<body class="form-page-body">
+    
+    <div class="pink-bar" id="navbar">
+        </div>
+
+    <div class="form-content-wrap">
+        <div class="form-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Registro</h2>
+            </div>
+            
+            <form id="register-form" style="padding: 20px;">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="password">Contraseña (mín. 6 caracteres):</label>
+                <input type="password" id="password" required minlength="6">
+                
+                <button type="submit" class="btn-primary" style="margin-top: 20px;">Registrarse</button>
+                <div id="error-message" style="color: red; margin-top: 10px;"></div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="pink-bar" style="text-align: center;">
+        <p>&copy; 2025 E-commerce. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/register.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const navbar = document.getElementById("navbar");
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (token && user) {
+                navbar.innerHTML = `
+                    <span>Hola, ${user.name}</span>
+                    <a href="#" id="logout-btn">Cerrar Sesión</a>
+                `;
+            } else {
+                navbar.innerHTML = `
+                    <a href="login.html">Login</a>
+                    <a href="register.html">Registro</a>
+                `;
+            }
+
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    alert('¡Sesión cerrada!');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

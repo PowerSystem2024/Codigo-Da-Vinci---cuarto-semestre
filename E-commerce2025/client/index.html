@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="media/styles.css"> 
+        <script src="https://sdk.mercadopago.com/js/v2"></script> 
+        <title>E-Commerce</title> 
+    </head> 
+    <body> 
+        
+        <div class="pink-bar" id="navbar">
+            </div>
+
+        <div class="card-products-container main-content"> 
+            <div class="card-products" id="shopContent"></div> 
+        </div> 
+
+        <div class="cart-btn" id="cart-btn">🛒</div> 
+        <span class="cart-counter" id="cart-counter">0</span>
+
+        <div class="modal-overlay" id="modal-overlay"></div> 
+        <div class="modal-container" id="modal-container"></div> 
+
+        <footer class="pink-bar" style="text-align: center;">
+            <p>&copy; 2025 E-commerce. Todos los derechos reservados.</p>
+        </footer>
+
+        <script src="js/index.js"></script>
+        <script src="js/cart.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const navbar = document.getElementById("navbar");
+                const token = localStorage.getItem('token');
+                const user = JSON.parse(localStorage.getItem('user'));
+
+                if (token && user) {
+                    navbar.innerHTML = `
+                        <span>Hola, ${user.name}</span>
+                        <a href="#" id="logout-btn">Cerrar Sesión</a>
+                    `;
+                } else {
+                    navbar.innerHTML = `
+                        <a href="login.html">Login</a>
+                        <a href="register.html">Registro</a>
+                    `;
+                }
+
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        alert('¡Sesión cerrada!');
+                        window.location.reload();
+                    });
+                }
+            });
+        </script>
+    </body> 
+</html>
