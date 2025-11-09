@@ -1,5 +1,135 @@
 /* --- BORRÁ TODO Y PEGÁ ESTO --- */
 
+/* Importa tipografías elegantes */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap');
+
+
+/* --- LANDING
+/* 🌸 HEADER DE CENTRO DE ESTÉTICA */
+.beauty-header {
+    background-color: #fff5f8;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 2px solid #f7c6d0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 700px; /* 🔸 limita el ancho para centrar mejor */
+    width: 100%;
+}
+
+
+/* Título principal */
+.header-text h1 {
+    font-family: 'Playfair Display SC', serif;
+    font-size: 4rem;
+    color: #59035c;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Subtítulo (servicios) */
+.header-text .tagline {
+    font-size: 1.3rem;
+    color: black;
+    font-weight: bold;
+    margin: 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Descripción */
+.header-text .description {
+    max-width: 550px;
+    font-size: 1rem;
+    color: #130014;
+    line-height: 1.5;
+    margin: 0 auto;
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+/* logo
+/* 🌸 HEADER CON FONDO Y LOGO */
+.beauty-header {
+    position: relative;
+    height: 400px; /* 🔸 altura visible del header */
+    background-image: url("media/centro-estetica.jpg"); /* 🔸 tu imagen del centro */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Capa semitransparente para mejorar la lectura del texto */
+.beauty-header .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(136, 30, 185, 0.87),
+        rgba(255, 228, 225, 0.808)
+    );
+    z-index: 1;
+}
+
+/* Contenido centrado encima del fondo */
+.header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+}
+
+/* Logo */
+.logo {
+  width: 180px;            /* tamaño general del logo */
+  height: 120px;           /* altura para forma ovalada */
+  object-fit: cover;       /* rellena el contenedor sin deformarse */
+  border-radius: 50%;      /* crea la forma ovalada */
+  display: block;          /* permite centrar */
+  margin: 0 auto 15px;     /* centrado con margen inferior */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* leve sombra elegante */
+}
+
+
+
+.salon-image {
+    width: 200%;
+    max-width: 600px;          /* tamaño máximo para mantener proporción */
+    height: 400px;             /* mantenemos la altura actual */
+    object-fit: cover;         /* evita deformación */
+    border-radius: 50%;        /* 💎 esto crea la forma ovalada */
+    display: block;
+    margin: 20px auto;         /* centrada y con espacio arriba */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* sombra elegante */
+}
+
+
+
+
+
+
+
+
 /* 1. ESTILOS GENERALES Y LAYOUT */
 body {
     background-color: #FFFFFF; /* Fondo blanco */
