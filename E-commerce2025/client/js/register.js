@@ -2,17 +2,17 @@ const form = document.getElementById('register-form');
 const errorMessage = document.getElementById('error-message');
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+    e.preventDefault();
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    errorMessage.innerText = ''; // Limpia errores anteriores
+    errorMessage.innerText = '';
 
     try {
-        // Llamamos a la ruta /api/register que creamos en el backend
-        const response = await fetch('https://e-commerce-backend-73ik.onrender.com/api/register', {
+        // Cambié la URL al backend local
+        const response = await fetch('http://localhost:8080/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,13 +23,11 @@ form.addEventListener('submit', async (e) => {
         const data = await response.json();
 
         if (!response.ok) {
-            // Si el backend devuelve un error (ej: "El correo ya existe")
             throw new Error(data.message);
         }
 
-        // Si todo sale bien
         alert('¡Usuario registrado con éxito! Por favor, inicia sesión.');
-        window.location.href = 'login.html'; // Redirige al login
+        window.location.href = 'login.html';
 
     } catch (error) {
         console.error('Error en registro:', error.message);
