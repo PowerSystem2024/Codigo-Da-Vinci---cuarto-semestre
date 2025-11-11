@@ -12,7 +12,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
         // Cambié la URL al backend local
-        const response = await fetch('http://localhost:8080/api/register', {
+        const response = await fetch('https://e-commerce-backend-73ik.onrender.com/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
