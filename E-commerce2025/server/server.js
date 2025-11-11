@@ -24,9 +24,6 @@ app.get("/api/productos", async (req, res) => {
   }
 });
 
-
-// --- RUTA DE MERCADO PAGO (CON EL TOKEN CORREGIDO) ---
-// 🔽 ¡AQUÍ ESTÁ EL ARREGLO! 🔽
 const client = new MercadoPagoConfig({ accessToken: "APP_USR-3825418461362106-092914-b4fe48964859f71c445033b3a5b7dcc5-2721133404" });
 
 app.post("/create_preference", async (req, res) => {
