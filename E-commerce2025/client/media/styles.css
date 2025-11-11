@@ -1,6 +1,156 @@
-/*products styles*/
+/* --- BORRÁ TODO Y PEGÁ ESTO --- */
+
+/* Importa tipografías elegantes */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap');
+
+
+/* --- LANDING
+/* 🌸 HEADER DE CENTRO DE ESTÉTICA */
+.beauty-header {
+    background-color: #fff5f8;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 2px solid #f7c6d0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 700px; /* 🔸 limita el ancho para centrar mejor */
+    width: 100%;
+}
+
+
+/* Título principal */
+.header-text h1 {
+    font-family: 'Playfair Display SC', serif;
+    font-size: 4rem;
+    color: #59035c;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Subtítulo (servicios) */
+.header-text .tagline {
+    font-size: 1.3rem;
+    color: black;
+    font-weight: bold;
+    margin: 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Descripción */
+.header-text .description {
+    max-width: 550px;
+    font-size: 1rem;
+    color: #130014;
+    line-height: 1.5;
+    margin: 0 auto;
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+/* logo
+/* 🌸 HEADER CON FONDO Y LOGO */
+.beauty-header {
+    position: relative;
+    height: 400px; /* 🔸 altura visible del header */
+    background-image: url("media/centro-estetica.jpg"); /* 🔸 tu imagen del centro */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Capa semitransparente para mejorar la lectura del texto */
+.beauty-header .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(136, 30, 185, 0.87),
+        rgba(255, 228, 225, 0.808)
+    );
+    z-index: 1;
+}
+
+/* Contenido centrado encima del fondo */
+.header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+}
+
+/* Logo */
+.logo {
+  width: 180px;            /* tamaño general del logo */
+  height: 120px;           /* altura para forma ovalada */
+  object-fit: cover;       /* rellena el contenedor sin deformarse */
+  border-radius: 50%;      /* crea la forma ovalada */
+  display: block;          /* permite centrar */
+  margin: 0 auto 15px;     /* centrado con margen inferior */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* leve sombra elegante */
+}
+
+
+
+.salon-image {
+    width: 200%;
+    max-width: 600px;          /* tamaño máximo para mantener proporción */
+    height: 400px;             /* mantenemos la altura actual */
+    object-fit: cover;         /* evita deformación */
+    border-radius: 50%;        /* 💎 esto crea la forma ovalada */
+    display: block;
+    margin: 20px auto;         /* centrada y con espacio arriba */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* sombra elegante */
+}
+
+
+
+
+
+
+
+
+/* 1. ESTILOS GENERALES Y LAYOUT */
+body {
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #333333;       /* Texto negro por defecto */
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    /* Magia para el footer (CSS Grid) */
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header, Contenido (se estira), Footer */
+    min-height: 100vh;
+}
+
+/* Clase para el contenido principal (hace que se estire) */
+.main-content {
+    flex-grow: 1; /* Esto empuja el footer hacia abajo */
+}
+
+/* 2. ESTILOS DE LA TIENDA (Tu código original) */
 .card-products-container {
-    margin: 5vh auto;
+    margin: 40px auto; /* Agregué margen superior */
 }
 
 .card-products {
@@ -35,7 +185,7 @@
     opacity: 0.7;
 }
 
-/*cart button*/
+/* 3. ESTILOS DEL CARRITO (Tu código original) */
 .cart-btn {
     position: fixed;
     top: 90vh;
@@ -68,7 +218,7 @@
     font-size: 15px;
 }
 
-/*modal*/
+/* 4. ESTILOS DEL MODAL (CARRITO) (Tu código original) */
 .modal-overlay {
     display: none;
     background-color: rgba(0, 0, 0, 0.5);
@@ -77,7 +227,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 100;
 }
 
 .modal-container {
@@ -91,7 +241,7 @@
     transform: translate(-50%, -50%);
     max-width: 500px;
     width: 100%;
-    z-index: 1;
+    z-index: 101;
     max-height: 80vh;
     overflow: auto;
 }
@@ -110,9 +260,9 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    color: #101010; /* Título oscuro */
 }
 
-/*modal-body*/
 .modal-body {
     margin-bottom: 20px;
     text-align: center;
@@ -216,4 +366,59 @@
 
 #button-checkout {
     z-index: 10;
+}
+
+/* 5. ESTILOS NUEVOS PARA NAVBAR Y FOOTER */
+.pink-bar {
+    background-color: #E535AB;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: right;
+    color: white; /* Texto blanco en la barra */
+    grid-row: auto; /* Parte de la magia de CSS Grid */
+}
+.pink-bar a,
+.pink-bar span {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+}
+.pink-bar p {
+    margin: 0; /* Quita margen del párrafo del footer */
+}
+
+/* 6. ESTILOS NUEVOS PARA FORMULARIOS (LOGIN/REGISTRO) */
+.form-content-wrap {
+    flex-grow: 1; /* Empuja el footer hacia abajo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.form-container {
+    max-width: 450px;  /* Inputs más cortos */
+    width: 90%;        /* Ocupa el 90% en móviles */
+    margin: 0 auto;    /* Centrado */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px; /* Bordes redondeados */
+    border: 1px solid #ddd;
+}
+
+.form-container label {
+    display: block; /* Para que el label esté arriba */
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px; /* Inputs redondeados */
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
 }

@@ -30,3 +30,15 @@ node_modules/
 npm-debug.log
 yarn-error.log
 dist/
+
+# Ignorar archivos del proyecto PERN
+/PERN-stack/backend/node_modules/
+/PERN-stack/backend/.env
+/PERN-stack/frontend/node_modules/
+/PERN-stack/frontend/dist/
+/PERN-stack/frontend/*.local
+
+# Ignorar archivos del E-commerce
+/E-commerce2025/server/node_modules/
+/E-commerce2025/server/.env
+/E-commerce2025/client/node_modules/
